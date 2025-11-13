@@ -39,4 +39,4 @@ jobs:
           # Specify the region where the S3 bucket is located
           AWS_REGION: 'ap-south-1'
           # The local directory containing the files to upload
-          SOURCE_DIR: 'myresume.html'
+          SOURCE_DIR: 'aritra-project'
