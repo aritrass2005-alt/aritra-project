@@ -1,0 +1,42 @@
+name: Upload website to S3
+
+# Triggers the workflow on push events to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+
+# Define the single job for deployment
+jobs:
+  deploy:
+    # Runs the job on the latest Ubuntu runner
+    runs-on: ubuntu-latest
+    
+    # Define the sequence of steps
+    steps:
+      # Step 1: Checks out the repository code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Uses the S3 sync action to upload the website
+      - name: S3 Sync Deployment
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          # Arguments for the sync command:
+          # --acl public-read: Makes files readable in S3 (essential for websites)
+          # --follow-symlinks: Handles symbolic links
+          # --delete: Removes files from S3 that are no longer in the source directory
+          args: --acl public-read --follow-symlinks --delete
+        
+        # Environment variables needed for the S3 sync action
+        env:
+          # Retrieve S3 bucket name securely from repository secrets
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          # Retrieve AWS Access Key ID securely from repository secrets
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # Retrieve AWS Secret Access Key securely from repository secrets
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # Specify the region where the S3 bucket is located
+          AWS_REGION: 'us-east-1'
+          # The local directory containing the files to upload
+          SOURCE_DIR: 'website'
