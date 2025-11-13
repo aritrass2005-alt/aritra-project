@@ -37,6 +37,6 @@ jobs:
           # Retrieve AWS Secret Access Key securely from repository secrets
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           # Specify the region where the S3 bucket is located
-          AWS_REGION: 'us-east-1'
+          AWS_REGION: 'ap-south-1'
           # The local directory containing the files to upload
-          SOURCE_DIR: 'website'
+          SOURCE_DIR: 'myresume.html'
